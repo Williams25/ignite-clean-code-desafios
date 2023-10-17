@@ -19,7 +19,7 @@ const categoryList = [
   },
 ];
 
-export default async function getGithubCategory(req, res) {
+export default async function getGithubUserCategory(req, res) {
   const userName = String(req.query.username);
 
   if (!userName) {
@@ -44,17 +44,17 @@ export default async function getGithubCategory(req, res) {
 
   const category = orderByCategory.find(
     (i) => gitHubUserData.followers > i.followers
-  );
+  ).title;
 
-  const result = {
+  const githubUserCategory = {
     userName,
-    category: category.title,
+    category,
   };
 
-  return result;
+  return githubUserCategory;
 }
 
-getGithubCategory(
+getGithubUserCategory(
   {
     query: {
       username: "josepholiveira",
