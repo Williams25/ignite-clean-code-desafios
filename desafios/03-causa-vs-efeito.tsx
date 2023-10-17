@@ -1,50 +1,48 @@
 // Causa vs Efeito
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-interface User {
+interface UserGithub {
   name: string;
   github: string;
 }
 
-function fetchUser() {
+function fetchGithubUser() {
   return {
     data: {
       user: {
-        name: 'Joseph Oliveira',
-        github: 'https://github.com/josepholiveira'
-      }
-    }
-  }
+        name: "Joseph Oliveira",
+        github: "https://github.com/josepholiveira",
+      },
+    },
+  };
 }
 
 export function UserProfile() {
-  const [shouldNotRenderUserName, setShouldNotRenderUserName] = useState(false)
-  const [userData, setUserData] = useState<User>()
+  const [isLoadingUserName, setIsLoadingUserName] = useState(false);
+  const [userGithub, setUserGithub] = useState<UserGithub>();
 
   useEffect(() => {
-    function loadUser() {
-      setShouldNotRenderUserName(true)
+    function loadGithubUser() {
+      setIsLoadingUserName(true);
 
-      const fetchUserResponse = fetchUser()
+      const githubUserResponse = fetchGithubUser();
 
-      setUserData(fetchUserResponse.data.user)
-      
-      setShouldNotRenderUserName(false)
+      setUserGithub(githubUserResponse.data.user);
+
+      setIsLoadingUserName(false);
     }
 
-    loadUser()
-  })
+    loadGithubUser();
+  });
 
-  if (shouldNotRenderUserName) {
-    return <p>Loading...</p>
+  if (isLoadingUserName) {
+    return <p>Loading...</p>;
   }
 
   return (
     <div>
-      <img src={`${userData?.github}.png`} alt="" />
-      <a href={userData?.github}>{userData?.name}</a>
+      <img src={`${userGithub?.github}.png`} alt="" />
+      <a href={userGithub?.github}>{userGithub?.name}</a>
     </div>
-  )
+  );
 }
-
-
